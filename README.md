@@ -6,12 +6,6 @@ saves an annotated snapshot to `captures/` (the "picture to the operator"
 hook). Maneuvering is a **PD controller** on the marker's image-space error,
 commanded as GUIDED body-frame velocities over MAVLink.
 
-```
-gz camera ─► OpenCV ArUco detect ─► PD (image error) ─► SET_POSITION_TARGET
-   ▲                                                        (pymavlink)
-   │                                                            ▼
-Gazebo iris ◄── ArduPilotPlugin (JSON) ◄──────────── ArduPilot SITL
-```
 
 ## Run (3 terminals)
 
