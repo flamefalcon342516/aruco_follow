@@ -1,0 +1,40 @@
+# ── Vision target (user-configurable) ─────────────────────────────────────
+# Change dictionary/marker_id, run scripts/gen_marker.py, restart the sim.
+target:
+  dictionary: DICT_4X4_50     # any cv2.aruco.DICT_* name
+  marker_id: 0                # id within that dictionary
+  size_m: 0.65                # printed side length of the marker itself (m)
+
+# ── Simulation ─────────────────────────────────────────────────────────────
+sim:
+  world: aruco_follow
+  marker_model: aruco_marker          # model name in the world (for move_marker)
+  camera_topic: ""                    # "" = auto-discover (*/sensor/camera/image)
+  gimbal_pitch_topic: /gimbal/cmd_pitch
+  gimbal_pitch_rad: 1.57              # +down for this gimbal: camera straight down
+  rotate_180: true                    # this camera renders upside-down
+
+# camera intrinsics are derived from the gimbal model sdf (640x480, hfov 2.0)
+camera:
+  width: 640
+  height: 480
+  hfov_rad: 2.0
+
+# ── MAVLink / flight ───────────────────────────────────────────────────────
+mavlink:
+  connection: udp:127.0.0.1:14550     # MAVProxy --out from sim_vehicle.py
+  takeoff_alt_m: 6.0
+
+# ── Follow controller (PD on normalized image error) ──────────────────────
+control:
+  rate_hz: 10           # matches camera update rate
+  kp: 4.0               # m/s per unit normalized image error
+  kd: 1.2               # derivative gain
+  max_vel_ms: 3.0       # velocity clamp per axis
+  deadband: 0.03        # ignore |error| below this (marker ~centered)
+  lost_timeout_s: 1.5   # marker unseen this long -> start searching
+  snapshot_cooldown_s: 10.0   # min seconds between operator snapshots
+  # search pattern (expanding square, body frame) when the target is lost
+  search_vel_ms: 1.5    # search speed
+  search_leg_s: 2.0     # first leg duration; legs grow every half-turn
+  search_max_s: 90.0    # give up and hover after this long

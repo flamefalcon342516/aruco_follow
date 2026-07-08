@@ -1,0 +1,32 @@
+# Gimbal (mount) configuration for iris_with_gimbal in Gazebo.
+#
+# ArduPilotPlugin <control channel="N"> is ZERO-indexed, so in the model SDF:
+#   channel 8  = SERVO9  -> gimbal roll joint
+#   channel 9  = SERVO10 -> gimbal pitch joint
+#   channel 10 = SERVO11 -> gimbal yaw joint
+# (matches ardupilot_gazebo/config/gazebo-iris-gimbal.parm)
+#
+# The mount boots in NEUTRAL mode with pitch -90 so the camera looks straight
+# down immediately; follow_aruco.py re-asserts -90 via MAVLink targeting.
+MNT1_TYPE        1
+MNT1_PITCH_MIN   -135
+MNT1_PITCH_MAX   45
+MNT1_ROLL_MIN    -30
+MNT1_ROLL_MAX    30
+MNT1_YAW_MIN     -160
+MNT1_YAW_MAX     160
+MNT1_DEFLT_MODE  1
+MNT1_NEUTRAL_Y   -90
+
+# Mount1 Roll
+SERVO9_FUNCTION  8
+SERVO9_MIN       1100
+SERVO9_MAX       1900
+# Mount1 Pitch
+SERVO10_FUNCTION 7
+SERVO10_MIN      1100
+SERVO10_MAX      1900
+# Mount1 Yaw
+SERVO11_FUNCTION 6
+SERVO11_MIN      1100
+SERVO11_MAX      1900

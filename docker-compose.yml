@@ -1,0 +1,26 @@
+# aruco_follow: Gazebo + ArduPilot SITL + ArUco follower.
+#   docker compose build          # one-time (~20 min: compiles ArduPilot)
+#   docker compose up             # runs all three; Ctrl+C stops
+#   docker compose exec follow python3 scripts/move_marker.py   # move target
+# All services share the host network: gz-transport and MAVLink stay on
+# loopback exactly as in the non-docker setup (host gz GUI can attach too).
+services:
+  sim:
+    build: .
+    image: aruco_follow
+    network_mode: host
+    command: /aruco_follow/docker/start_sim.sh
+
+  sitl:
+    image: aruco_follow
+    network_mode: host
+    depends_on: [sim]
+    command: /aruco_follow/docker/start_sitl.sh
+
+  follow:
+    image: aruco_follow
+    network_mode: host
+    depends_on: [sitl]
+    command: /aruco_follow/docker/start_follow.sh
+    volumes:
+      - ./captures:/aruco_follow/captures

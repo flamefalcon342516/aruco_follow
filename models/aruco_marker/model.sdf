@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <!-- Static: moved via /world/<w>/set_pose (scripts/move_marker.py) or the
+       Gazebo GUI translate tool; physics never topples it. -->
+  <model name="aruco_marker">
+    <static>true</static>
+    <link name="link">
+      <!-- marker face: 1x1 m plate; the printed marker occupies the central
+           80% (0.8 m canvas -> marker itself 0.65 m, see gen_marker.py) -->
+      <visual name="marker_face">
+        <pose>0 0 0.051 0 0 0</pose>
+        <geometry>
+          <box><size>1.0 1.0 0.002</size></box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://aruco_marker/materials/textures/marker.png</albedo_map>
+              <roughness>1.0</roughness>
+              <metalness>0.0</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <!-- base slab so the plate sits visibly above the ground -->
+      <visual name="base">
+        <pose>0 0 0.025 0 0 0</pose>
+        <geometry>
+          <box><size>1.1 1.1 0.05</size></box>
+        </geometry>
+        <material>
+          <diffuse>0.9 0.35 0.1 1</diffuse>
+        </material>
+      </visual>
+      <collision name="collision">
+        <pose>0 0 0.025 0 0 0</pose>
+        <geometry>
+          <box><size>1.1 1.1 0.05</size></box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,13 @@
+# ArduPilot SITL runtime state
+eeprom.bin
+mav.tlog
+mav.tlog.raw
+
+# Dataflash / telemetry logs
+logs/
+
+# Generated operator snapshots
+captures/
+
+# Auto-downloaded terrain tiles
+terrain/
